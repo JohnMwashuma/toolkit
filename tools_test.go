@@ -163,3 +163,24 @@ func TestTools_UploadOneFile(t *testing.T) {
 	}
 
 }
+
+func TestTools_CreateDirIfNotExists(t *testing.T) {
+	var testTools Tools
+	const dirPath = "./test"
+	err := testTools.CreateDirIfNotExists(dirPath)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
+		t.Errorf("expected dir to exist: %s", err)
+	}
+
+	err = testTools.CreateDirIfNotExists(dirPath)
+	if err != nil {
+		t.Error(err)
+	}
+
+	// clean up
+	_ = os.Remove(dirPath)
+}
